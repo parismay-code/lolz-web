@@ -12,10 +12,10 @@ import './style.css';
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <QueryClientProvider client={queryClient}>
-    <StoresProvider>
-      <App />
-    </StoresProvider>
-  </QueryClientProvider>,
+    <QueryClientProvider client={queryClient}>
+        <StoresProvider>
+            <App />
+        </StoresProvider>
+    </QueryClientProvider>,
 );
 

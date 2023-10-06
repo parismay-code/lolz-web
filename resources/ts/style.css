@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type='text'],
+input[type='password'],
+button[type='submit'] {
+    @apply p-1 px-3 w-full rounded outline-none border-none bg-slate-400 text-white transition-all;
+}
+
+button[type='submit'] {
+    @apply w-full py-2 bg-green-500 opacity-75 hover:opacity-100 font-bold;
+}
+
+input[type='text']:disabled,
+input[type='password']:disabled,
+button[type='submit']:disabled {
+    @apply opacity-50 hover:opacity-50 cursor-progress;
+}
+
+.link {
+    opacity: .5;
+
+    transition: .2s;
+}
+
+.link:hover,
+.link_active {
+    opacity: 1;
+}

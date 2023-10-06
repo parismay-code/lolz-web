@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Http\Resources\AdminResource;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
@@ -13,44 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request): Response
-    {
-        $data = $request->validated();
-
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        $cookie = cookie('token', $token, 60 * 24);
-
-        return response()->json([
-            'user' => new UserResource($user),
-        ])->withCookie($cookie);
-    }
-
     public function login(LoginRequest $request): Response
     {
         $data = $request->validated();
 
-        $user = User::where('email', $data['email'])->first();
+        $admin = Admin::where('login', $data['login'])->first();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
+        if (!$admin || !Hash::check($data['password'], $admin->password)) {
             return response()->json([
-                'message' => 'Email or password is incorrect.',
+                'message' => 'Login or password is incorrect.',
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $admin->createToken('auth_token')->plainTextToken;
 
         $cookie = cookie('token', $token, 60 * 24);
 
-        return response()->json([
-            'user' => new UserResource($user),
-        ])->withCookie($cookie);
+        return response(new AdminResource($admin))->withCookie($cookie);
     }
 
     public function logout(Request $request): Response
@@ -59,13 +37,11 @@ class AuthController extends Controller
 
         $cookie = cookie()->forget('token');
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ])->withCookie($cookie);
+        return response('ok')->withCookie($cookie);
     }
 
     public function user(Request $request): JsonResource
     {
-        return new UserResource($request->user());
+        return new AdminResource($request->user());
     }
 }

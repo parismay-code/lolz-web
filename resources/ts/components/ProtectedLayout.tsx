@@ -1,40 +1,41 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 import { useStores } from '@contexts/StoresContext';
 
+import Layout from '@components/Layout';
+import IUser from '@interfaces/IUser.ts';
+
 const ProtectedLayout: FC = observer(() => {
-  const { authStore } = useStores();
+    const { authStore } = useStores();
 
-  const user = authStore.user;
+    const fetchUser = async () => {
+        const response = await window.axios.get('/user');
 
-  const fetchUser = async () => {
-    try {
-      const response = await window.axios.get('/user');
+        return response.data;
+    };
 
-      if (response.status === 200) {
-        authStore.setUser(response.data.data);
-      }
-    } catch (error: any) {
-      if (error.response.status === 401) {
-        localStorage.removeItem('user');
-        window.location.href = '/';
-      }
+    const { isLoading } = useQuery({
+        queryKey: ['auth'],
+        queryFn: fetchUser,
+        onSuccess: (data: IUser) => {
+            authStore.setUser(data);
+        },
+        onError: () => {
+            localStorage.removeItem('user');
+        },
+        staleTime: 120 * 60 * 1000,
+        cacheTime: 120 * 60 * 1000,
+        retry: false,
+    });
+
+    if (!isLoading && !authStore.user) {
+        return <Navigate to='/login' />;
     }
-  };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  if (!user) {
-    return <Navigate to='/' />;
-  }
-
-  return <>
-    <Outlet />
-  </>;
+    return <Layout isLoading={isLoading} />;
 });
 
 export default ProtectedLayout;
