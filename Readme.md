@@ -1,6 +1,6 @@
 # Запуск приложения
 1. yarn install / npm install
-2. composer require
+2. composer install
 3. Скопировать .env.example в файл .env
    - Linux: cp .env.example .env
 4. Собрать реакт
