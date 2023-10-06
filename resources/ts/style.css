@@ -4,8 +4,9 @@
 
 input[type='text'],
 input[type='password'],
-button[type='submit'] {
-    @apply p-1 px-3 w-full rounded outline-none border-none bg-slate-400 text-white transition-all;
+button[type='submit'],
+textarea {
+    @apply p-1 px-3 w-full rounded outline-none border-none bg-slate-400 text-white transition-opacity;
 }
 
 button[type='submit'] {
@@ -14,7 +15,8 @@ button[type='submit'] {
 
 input[type='text']:disabled,
 input[type='password']:disabled,
-button[type='submit']:disabled {
+button[type='submit']:disabled,
+textarea:disabled {
     @apply opacity-50 hover:opacity-50 cursor-progress;
 }
 

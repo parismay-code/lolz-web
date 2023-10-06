@@ -13,7 +13,7 @@ class ArticlesController extends Controller
 {
     public function getAll(Request $request): Response
     {
-        return response(new ArticleCollection(Article::paginate(5)));
+        return response(new ArticleCollection(Article::orderByDesc('created_at')->paginate(8)));
     }
 
     public function get(Request $request, Article $article): Response

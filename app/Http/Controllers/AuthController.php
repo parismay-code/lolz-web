@@ -19,9 +19,7 @@ class AuthController extends Controller
         $admin = Admin::where('login', $data['login'])->first();
 
         if (!$admin || !Hash::check($data['password'], $admin->password)) {
-            return response()->json([
-                'message' => 'Login or password is incorrect.',
-            ], Response::HTTP_UNAUTHORIZED);
+            return response(['message' => 'Login or password is incorrect.'], Response::HTTP_UNAUTHORIZED);
         }
 
         $token = $admin->createToken('auth_token')->plainTextToken;

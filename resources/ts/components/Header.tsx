@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 
 import { useStores } from '@contexts/StoresContext';
+import { useQueryClient } from 'react-query';
 
 interface ILink {
     title: string;
@@ -27,15 +28,31 @@ const links: Array<ILink> = [
 const Header: FC = observer(() => {
     const { authStore } = useStores();
 
-    return <header className='py-3'>
+    const queryClient = useQueryClient();
+
+    const handleLogout = async () => {
+        try {
+            const response = await window.axios.post('/logout');
+
+            if (response.status === 200) {
+                await queryClient.invalidateQueries({ queryKey: ['auth'] });
+                localStorage.removeItem('lolz_user');
+                window.location.href = '/';
+            }
+        } catch (error: any) {
+            console.log(error);
+        }
+    };
+
+    return <header className='py-3 z-50'>
         <nav className='flex items-center justify-center gap-5 font-semibold'>
-            {links.map((el, key) => {
+            {links.map((el) => {
                 if (el.authRequired && !authStore.user) {
                     return null;
                 }
 
                 return <NavLink
-                    key={key}
+                    key={el.link}
                     to={el.link}
                     className={({ isActive }) => cn(
                         'link',
@@ -46,15 +63,16 @@ const Header: FC = observer(() => {
                 </NavLink>;
             })}
 
-            {!authStore.user && <NavLink
-                to='/login'
-                className={({ isActive }) => cn(
-                    'link',
-                    isActive && 'link_active',
-                )}
-            >
-                Вход
-            </NavLink>}
+            {!authStore.user ? <NavLink
+                    to='/login'
+                    className={({ isActive }) => cn(
+                        'link',
+                        isActive && 'link_active',
+                    )}
+                >
+                    Вход
+                </NavLink> :
+                <a href='#' className='link' onClick={handleLogout}>Выход</a>}
         </nav>
     </header>;
 });

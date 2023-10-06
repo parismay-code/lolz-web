@@ -6,16 +6,16 @@ export default class AuthStore implements IAuthStore {
     user: IUser | null = null;
 
     constructor() {
-        this.user = JSON.parse(localStorage.getItem('user') || 'null');
+        this.user = JSON.parse(localStorage.getItem('lolz_user') || 'null');
 
         makeAutoObservable(this);
     }
 
     setUser = (user: IUser) => {
         if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('lolz_user', JSON.stringify(user));
         } else {
-            localStorage.removeItem('user');
+            localStorage.removeItem('lolz_user');
         }
 
         this.user = user;
