@@ -6,8 +6,8 @@
 
     <title>Blog</title>
 </head>
-<body class='w-[100vw] h-[100vh] overflow-hidden'>
-<div id='root' class='flex flex-col w-full h-full'></div>
+<body class='w-[100vw] h-[100vh]'>
+<div id='root' class='flex flex-col w-full h-full overflow-x-hidden'></div>
 
 @vitereactrefresh
 @vite(['resources/ts/main.tsx'])

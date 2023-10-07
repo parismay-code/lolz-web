@@ -26,8 +26,8 @@ const ArticlesList: FC<ArticlesListProps> = ({ isAdmin }) => {
         keepPreviousData: true,
     });
 
-    return <div className='relative w-full h-full flex flex-col'>
-        <div className='flex flex-wrap gap-2'>
+    return <div className='relative flex flex-col'>
+        <div className='flex flex-wrap gap-2 min-h-[55vh]'>
             {data?.data.map((el) => {
                 return <Article key={el.id} article={el} isAdmin={isAdmin} />;
             })}
@@ -35,7 +35,7 @@ const ArticlesList: FC<ArticlesListProps> = ({ isAdmin }) => {
 
         {data && data.pagination.total > data.pagination.per_page &&
             <div
-                className='absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-2 mb-40 mx-auto font-bold'>
+                className='absolute -bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-2 mx-auto font-bold'>
                 <button
                     type='button'
                     disabled={data.pagination.current_page - 1 === 0}

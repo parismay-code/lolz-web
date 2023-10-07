@@ -13,7 +13,7 @@ class CommentsController extends Controller
 {
     public function get(Request $request, Article $article): Response
     {
-        $comments = $article->comments()->get();
+        $comments = $article->comments()->orderByDesc('created_at')->get();
 
         return response(CommentResource::collection($comments));
     }

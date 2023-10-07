@@ -5,17 +5,28 @@
 input[type='text'],
 input[type='password'],
 button[type='submit'],
+.delete-button,
 textarea {
     @apply p-1 px-3 w-full rounded outline-none border-none bg-slate-400 text-white transition-opacity;
 }
 
+button[type='submit'],
+.delete-button {
+    @apply w-full py-2 opacity-75 hover:opacity-100 font-bold;
+}
+
 button[type='submit'] {
-    @apply w-full py-2 bg-green-500 opacity-75 hover:opacity-100 font-bold;
+    @apply bg-green-500;
+}
+
+.delete-button {
+    @apply bg-rose-500;
 }
 
 input[type='text']:disabled,
 input[type='password']:disabled,
 button[type='submit']:disabled,
+.delete-button:disabled,
 textarea:disabled {
     @apply opacity-50 hover:opacity-50 cursor-progress;
 }
@@ -29,4 +40,8 @@ textarea:disabled {
 .link:hover,
 .link_active {
     opacity: 1;
+}
+
+.balance {
+    text-wrap: balance;
 }

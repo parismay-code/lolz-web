@@ -21,7 +21,7 @@ const routes: Array<RouteObject> = [
             },
             {
                 path: '/articles/:id',
-                element: <Article />,
+                element: <Article isAdmin={false} />,
             },
             {
                 path: '/login',
@@ -55,7 +55,7 @@ const routes: Array<RouteObject> = [
                     },
                     {
                         path: '/admin/articles/:id/edit',
-                        element: <div>edit article</div>,
+                        element: <Article isAdmin={true} />,
                     },
                 ],
             },

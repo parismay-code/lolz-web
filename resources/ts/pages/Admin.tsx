@@ -20,7 +20,7 @@ const links: Array<ILink> = [
 
 const Admin: FC = () => {
     return <section className='relative w-full h-full flex items-start'>
-        <nav className='h-full pr-5 border-r-2 border-violet-950 flex flex-col items-start gap-2'>
+        <nav className='h-full w-[15%] pr-5 border-r-2 border-violet-950 flex flex-col items-start gap-2'>
             {links.map((el) => {
                 return <NavLink
                     key={el.link}
@@ -35,7 +35,7 @@ const Admin: FC = () => {
             })}
         </nav>
 
-        <div className='h-full pl-5 pb-5 grow'>
+        <div className='h-full w-[85%] pl-5 pb-5 grow'>
             <Outlet />
         </div>
     </section>;
