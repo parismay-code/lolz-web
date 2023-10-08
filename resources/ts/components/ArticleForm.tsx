@@ -51,7 +51,7 @@ const ArticleForm: FC<ArticleFormProps> = ({ article }) => {
 
         try {
             if (!article) {
-                throw new Error('no article');
+                return Promise.reject('no article');
             }
 
             const response = await window.axios.delete(`articles/${article.id}`);
@@ -67,56 +67,58 @@ const ArticleForm: FC<ArticleFormProps> = ({ article }) => {
     };
 
     return <form method='post' action='#' onSubmit={handleSubmit}
-                 className='w-full grow flex flex-col items-center gap-5'>
-        <div className='w-full flex items-center justify-between gap-5'>
-            <div className='grow flex flex-col items-start gap-1'>
-                <label htmlFor='title'>Название</label>
-                <input type='text' id='title' name='title' disabled={loading}
-                       defaultValue={article ? article.title : ''} />
+                 className='w-full flex flex-col gap-7'>
+        <div className='w-full h-[25rem] grow flex items-start gap-10'>
+            <div className='w-1/3 h-full flex flex-col items-start gap-5'>
+                <div className='w-full flex flex-col items-start gap-1'>
+                    <label htmlFor='title' className='font-bold text-[1.2rem]'>Название</label>
+                    <input type='text' id='title' name='title' disabled={loading}
+                           defaultValue={article ? article.title : ''} />
+                </div>
+
+                <div className='w-full grow flex flex-col items-start gap-1'>
+                    <label htmlFor='description' className='font-bold text-[1.2rem]'>Описание</label>
+                    <textarea
+                        title='Описание'
+                        id='description'
+                        name='description'
+                        disabled={loading}
+                        className='grow resize-none'
+                        defaultValue={article ? article.description : ''}
+                    />
+                </div>
             </div>
 
-            <div className='basis-80 h-full flex items-center gap-1'>
-                <button
-                    type='submit'
+            <div className='w-full h-full grow flex flex-col items-start gap-1'>
+                <label htmlFor='content' className='font-bold text-[1.2rem]'>Контент</label>
+                <textarea
+                    title='Контент'
+                    id='content'
+                    name='content'
                     disabled={loading}
-                    className='h-full'
-                >
-                    {loading ? 'Ожидайте...' : article ? 'Изменить' : 'Создать'}
-                </button>
-
-                {article && <button
-                    type='button'
-                    disabled={loading}
-                    className='h-full delete-button'
-                    onClick={handleDelete}
-                >
-                    {loading ? 'Ожидайте...' : 'Удалить'}
-                </button>}
+                    className='h-full resize-none'
+                    defaultValue={article ? article.content : ''}
+                />
             </div>
         </div>
 
-        <div className='w-full flex flex-col items-start gap-1'>
-            <label htmlFor='description'>Описание</label>
-            <textarea
-                title='Описание'
-                id='description'
-                name='description'
+        <div className='ml-auto flex items-center gap-3'>
+            <button
+                type='submit'
                 disabled={loading}
-                className='min-h-[5vh] max-h-[40vh]'
-                defaultValue={article ? article.description : ''}
-            />
-        </div>
+                className='w-40'
+            >
+                {loading ? 'Ожидайте...' : article ? 'Изменить' : 'Создать'}
+            </button>
 
-        <div className='w-full grow flex flex-col items-start gap-1'>
-            <label htmlFor='content'>Контент</label>
-            <textarea
-                title='Контент'
-                id='content'
-                name='content'
+            {article && <button
+                type='button'
                 disabled={loading}
-                className='grow resize-none'
-                defaultValue={article ? article.content : ''}
-            />
+                className='w-40 delete-button'
+                onClick={handleDelete}
+            >
+                {loading ? 'Ожидайте...' : 'Удалить'}
+            </button>}
         </div>
     </form>;
 };

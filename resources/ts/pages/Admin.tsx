@@ -1,43 +1,36 @@
-import { FC } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import cn from 'classnames';
+import { FC, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 
-interface ILink {
-    title: string;
-    link: string;
-}
+import { useHeader } from '@contexts/HeaderContext';
 
-const links: Array<ILink> = [
+import IHeaderLink from '@interfaces/IHeaderLink';
+
+const links: Array<IHeaderLink> = [
     {
-        title: 'Создание статьи',
-        link: '/admin/articles/create',
+        title: 'Редактирование',
+        link: '/admin/articles/edit',
     },
     {
-        title: 'Редактирование статей',
-        link: '/admin/articles/edit',
+        title: 'Создание',
+        link: '/admin/articles/create',
     },
 ];
 
 const Admin: FC = () => {
-    return <section className='relative w-full h-full flex items-start'>
-        <nav className='h-full w-[15%] pr-5 border-r-2 border-violet-950 flex flex-col items-start gap-2'>
-            {links.map((el) => {
-                return <NavLink
-                    key={el.link}
-                    to={el.link}
-                    className={({ isActive }) => cn(
-                        'link',
-                        isActive && 'link_active',
-                    )}
-                >
-                    {el.title}
-                </NavLink>;
-            })}
-        </nav>
+    const { setLinks, setTitle } = useHeader();
 
-        <div className='h-full w-[85%] pl-5 pb-5 grow'>
-            <Outlet />
-        </div>
+    useEffect(() => {
+        setLinks(links);
+        setTitle('Администрирование');
+
+        return () => {
+            setLinks([]);
+            setTitle('');
+        };
+    }, []);
+
+    return <section className='relative w-full h-full flex items-start'>
+        <Outlet />
     </section>;
 };
 

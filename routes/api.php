@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/articles', [ArticlesController::class, 'getAll']);
-Route::get('/articles/{article}', [ArticlesController::class, 'get']);
+Route::get('/articles/{filter}', [ArticlesController::class, 'getAll']);
+Route::get('/articles/article/{article}', [ArticlesController::class, 'get']);
 
 Route::get('/articles/{article}/comments', [CommentsController::class, 'get']);
 Route::post('/articles/{article}/comments', [CommentsController::class, 'create']);

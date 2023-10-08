@@ -11,9 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ArticlesController extends Controller
 {
-    public function getAll(Request $request): Response
+    public function getAll(Request $request, string $filter): Response
     {
-        return response(new ArticleCollection(Article::orderByDesc('created_at')->paginate(8)));
+        if ($filter === 'popular') {
+            $articles = Article::withCount('comments')->orderByDesc('comments_count');
+        } else {
+            $articles = Article::orderByDesc('created_at');
+        }
+
+        return response(new ArticleCollection($articles->paginate(3)));
     }
 
     public function get(Request $request, Article $article): Response

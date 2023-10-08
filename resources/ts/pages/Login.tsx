@@ -1,8 +1,9 @@
-import { FC, SyntheticEvent, useState } from 'react';
-
-import { useStores } from '@contexts/StoresContext';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+
+import { useStores } from '@contexts/StoresContext';
+import { useHeader } from '@contexts/HeaderContext';
 
 type Fields = 'login' | 'password';
 
@@ -16,6 +17,16 @@ const Login: FC = observer(() => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const { authStore } = useStores();
+
+    const { setTitle } = useHeader();
+
+    useEffect(() => {
+        setTitle('Авторизация');
+
+        return () => {
+            setTitle('');
+        }
+    }, []);
 
     const handleSubmit = async (event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
         event.preventDefault();
@@ -57,10 +68,10 @@ const Login: FC = observer(() => {
         return <Navigate to='/' />;
     }
 
-    return <section className='w-full h-full flex items-center justify-center -translate-y-40'>
-        <form method='post' action='#' onSubmit={handleSubmit} className='w-80 flex flex-col items-center gap-1'>
+    return <section className='w-full h-full flex items-center justify-center -translate-y-36'>
+        <form method='post' action='#' onSubmit={handleSubmit} className='w-80 flex flex-col items-center gap-2'>
             <div className='w-full flex flex-col items-start gap-1'>
-                <label htmlFor='login'>Логин</label>
+                <label htmlFor='login' className='font-bold text-[1.2rem]'>Логин</label>
                 <input type='text' id='login' name='login' disabled={loading} />
 
                 <div className='flex flex-col gap-1 text-rose-500'>
@@ -70,8 +81,8 @@ const Login: FC = observer(() => {
                 </div>
             </div>
 
-            <div className='w-full flex flex-col items-start gap-1'>
-                <label htmlFor='password'>Пароль</label>
+            <div className='w-full flex flex-col items-start gap-1 mb-7'>
+                <label htmlFor='password' className='font-bold text-[1.2rem]'>Пароль</label>
                 <input type='password' id='password' name='password' disabled={loading} />
 
                 <div className='flex flex-col gap-1 text-rose-500'>
@@ -84,6 +95,7 @@ const Login: FC = observer(() => {
             <button
                 type='submit'
                 disabled={loading}
+                className='w-full'
             >
                 {loading ? 'Проверка...' : 'Войти'}
             </button>

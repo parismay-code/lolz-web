@@ -1,33 +1,36 @@
 import { FC, useState } from 'react';
-import Article from '@components/Article.tsx';
 import { useQuery } from 'react-query';
-import IPaginated from '@interfaces/IPaginated.ts';
-import IArticle from '@interfaces/IArticle.ts';
+
+import IPaginated from '@interfaces/IPaginated';
+import IArticle from '@interfaces/IArticle';
+
+import Article from '@components/Article';
 
 interface ArticlesListProps {
     isAdmin: boolean;
+    filter: string;
 }
 
-const fetchArticles = async (page = 1) => {
-    const response = await window.axios.get(`/articles?page=${page}`);
+const fetchArticles = async (page = 1, filter = 'new') => {
+    const response = await window.axios.get(`/articles/${filter}?page=${page}`);
 
     return response.data;
 };
 
-const ArticlesList: FC<ArticlesListProps> = ({ isAdmin }) => {
+const ArticlesList: FC<ArticlesListProps> = ({ isAdmin, filter }) => {
     const [page, setPage] = useState<number>(1);
 
     const { data } = useQuery<IPaginated<Array<IArticle>>>({
-        queryKey: ['articles', page],
-        queryFn: () => fetchArticles(page),
+        queryKey: ['articles', page, filter],
+        queryFn: () => fetchArticles(page, filter),
         onError: (err) => {
             console.log(err);
         },
         keepPreviousData: true,
     });
 
-    return <div className='relative flex flex-col'>
-        <div className='flex flex-wrap gap-2 min-h-[55vh]'>
+    return <div className='relative'>
+        <div className='flex flex-wrap justify-evenly gap-5'>
             {data?.data.map((el) => {
                 return <Article key={el.id} article={el} isAdmin={isAdmin} />;
             })}

@@ -10,8 +10,8 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({ isLoading }) => {
     return <>
         <Header />
-        <main className='container mx-auto grow'>
-            {isLoading ? <div>Loading...</div> : <Outlet />}
+        <main className='relative px-36 py-24 grow'>
+            {isLoading ? <div className='w-full h-full flex items-center justify-center'>Loading...</div> : <Outlet />}
         </main>
     </>;
 };

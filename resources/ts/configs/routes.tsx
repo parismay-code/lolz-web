@@ -20,6 +20,10 @@ const routes: Array<RouteObject> = [
                 element: <Home />,
             },
             {
+                path: '/new',
+                element: <Home />,
+            },
+            {
                 path: '/articles/:id',
                 element: <Article isAdmin={false} />,
             },

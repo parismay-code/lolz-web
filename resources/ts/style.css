@@ -2,44 +2,177 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Heavy.woff2') format('woff2');
+    font-weight: 950;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-HeavyItalic.woff2') format('woff2');
+    font-weight: 950;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Black.woff2') format('woff2');
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-BlackItalic.woff2') format('woff2');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-ExtraBoldItalic.woff2') format('woff2');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Bold.woff2') format('woff2');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-BoldItalic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-SemiBoldItalic.woff2') format('woff2');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Medium.woff2') format('woff2');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-MediumItalic.woff2') format('woff2');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Regular.woff2') format('woff2');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-RegularItalic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Light.woff2') format('woff2');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-LightItalic.woff2') format('woff2');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-UltraLight.woff2') format('woff2');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-UltraLightItalic.woff2') format('woff2');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-Thin.woff2') format('woff2');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'Qanelas';
+    src: url('./assets/fonts/Qanelas-ThinItalic.woff2') format('woff2');
+    font-weight: 100;
+    font-style: italic;
+}
+
 input[type='text'],
 input[type='password'],
-button[type='submit'],
-.delete-button,
 textarea {
-    @apply p-1 px-3 w-full rounded outline-none border-none bg-slate-400 text-white transition-opacity;
+    @apply py-2 px-3 w-full outline-none border-none drop-shadow shadow-shadow/50 transition-opacity;
 }
 
 button[type='submit'],
 .delete-button {
-    @apply w-full py-2 opacity-75 hover:opacity-100 font-bold;
+    @apply py-3 opacity-75 hover:opacity-100 font-bold text-[1.2rem] transition-opacity;
 }
 
 button[type='submit'] {
-    @apply bg-green-500;
+    @apply bg-black text-white;
 }
 
 .delete-button {
-    @apply bg-rose-500;
+    @apply bg-shadow/50 text-black;
 }
 
 input[type='text']:disabled,
 input[type='password']:disabled,
 button[type='submit']:disabled,
-.delete-button:disabled,
 textarea:disabled {
     @apply opacity-50 hover:opacity-50 cursor-progress;
 }
 
 .link {
-    opacity: .5;
-
-    transition: .2s;
+    @apply font-semibold transition-all;
 }
 
 .link:hover,
 .link_active {
-    opacity: 1;
+    @apply text-green;
+}
+
+.slider {
+    @apply relative after:content-none before:absolute before:bottom-0 before:left-0 before:w-[130%] before:-translate-x-[10%] before:h-1 before:bg-green before:opacity-0 before:hover:opacity-100 before:transition-all;
+}
+
+.slider_active {
+    @apply before:opacity-100
 }
 
 .balance {

@@ -1,7 +1,9 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 import IArticle from '@interfaces/IArticle';
-import { Link } from 'react-router-dom';
+
+import dateIcon from '@assets/images/date.svg';
 
 interface ArticleProps {
     article: IArticle;
@@ -11,18 +13,23 @@ interface ArticleProps {
 const Article: FC<ArticleProps> = ({ article, isAdmin }) => {
     const title = article.title.length > 30 ? article.title.substring(0, 26) + '...' : article.title;
 
-    const description = article.description.length > 300 ? article.description.substring(0, 296) + '...' : article.description;
+    const description = article.description.length > 35 ? article.description.substring(0, 31) + '...' : article.description;
+
+    const date = new Date(article.created_at);
 
     return <Link
         to={isAdmin ? `/admin/articles/${article.id}/edit` : `/articles/${article.id}`}
-        className='relative rounded grow basis-80 min-h-[18rem] max-h-[25rem] p-3 pb-7 border-2 border-dashed border-opacity-75 opacity-75 hover:border-opacity-100 hover:opacity-100 transition-all'
+        className='relative w-[27rem] h-72 p-8 bg-white drop-shadow shadow-shadow/50 transition-all'
     >
-        <h2 className='mb-5 font-semibold' title={article.title}>Статья "{title}"</h2>
+        <h2 className='mb-5 font-semibold text-[1.5rem] text-black/30' title={article.title}>{title}</h2>
 
-        <span>Описание:</span>
-        <pre className='font-sans balance'>{description}</pre>
+        <p className='text-[2rem] font-bold balance'>{description}</p>
 
-        {isAdmin && <span className='absolute left-3 bottom-3 text-sm opacity-50'>ID: {article.id}</span>}
+        <div className='absolute bottom-8 left-8 flex items-center gap-4'>
+            <img src={dateIcon} alt={article.created_at} className='h-7' />
+            <span
+                className='text-black/50 font-medium text-[1.5rem]'>{`${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}.${date.getFullYear().toString()}`}</span>
+        </div>
     </Link>;
 };
 

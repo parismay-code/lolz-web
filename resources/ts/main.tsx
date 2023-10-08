@@ -8,13 +8,16 @@ import { StoresProvider } from '@contexts/StoresContext';
 import './bootstrap';
 
 import './style.css';
+import { HeaderProvider } from '@contexts/HeaderContext.tsx';
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
         <StoresProvider>
-            <App />
+            <HeaderProvider>
+                <App />
+            </HeaderProvider>
         </StoresProvider>
     </QueryClientProvider>,
 );

@@ -14,22 +14,22 @@ interface FormData {
     content: { value: string };
 }
 
+const fetchComments = async (articleId: number) => {
+    if (articleId < 0) {
+        return Promise.reject();
+    }
+
+    const response = await window.axios.get(`/articles/${articleId}/comments`);
+
+    return response.data as Array<IComment>;
+};
+
 const Comments: FC<CommentsProps> = ({ articleId }) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const form = useRef<HTMLFormElement>(null);
 
     const queryClient = useQueryClient();
-
-    const fetchComments = async (articleId: number) => {
-        if (articleId < 0) {
-            return Promise.reject();
-        }
-
-        const response = await window.axios.get(`/articles/${articleId}/comments`);
-
-        return response.data as Array<IComment>;
-    };
 
     const { data } = useQuery({
         queryKey: ['comments', articleId],
@@ -68,29 +68,18 @@ const Comments: FC<CommentsProps> = ({ articleId }) => {
         }
     };
 
-    return <div className='pb-10'>
-        <h2 className='text-2xl font-semibold mb-5'>Комментарии</h2>
+    return <div className='mt-16'>
+        <h2 className='text-[2rem] font-bold mb-14'>Комментарии <span
+            className='text-black/30'>({data?.length || 0})</span></h2>
 
-        <form ref={form} method='post' action='#' onSubmit={handleSubmit} className='flex flex-col gap-5 mb-10'>
-            <h3 className='text-xl font-semibold'>Оставить комментарий</h3>
-
-            <div className='w-1/2 h-12 flex items-end justify-between gap-5'>
-                <div className='grow flex flex-col items-start gap-1'>
-                    <label htmlFor='author'>Ваше имя</label>
-                    <input type='text' id='author' name='author' disabled={loading} />
-                </div>
-
-                <button
-                    type='submit'
-                    disabled={loading}
-                    className='basis-80 h-full'
-                >
-                    {loading ? 'Ожидайте...' : 'Отправить'}
-                </button>
+        <form ref={form} method='post' action='#' onSubmit={handleSubmit} className='flex flex-col gap-5'>
+            <div className='grow flex flex-col items-start gap-1'>
+                <label htmlFor='author' className='font-bold text-[1.2rem]'>Ваше имя</label>
+                <input type='text' id='author' name='author' disabled={loading} />
             </div>
 
-            <div className='flex flex-col items-start gap-1'>
-                <label htmlFor='content'>Комментарий</label>
+            <div className='flex flex-col items-start gap-1 mb-7'>
+                <label htmlFor='content' className='font-bold text-[1.2rem]'>Комментарий</label>
                 <textarea
                     title='Комментарий'
                     id='content'
@@ -99,7 +88,17 @@ const Comments: FC<CommentsProps> = ({ articleId }) => {
                     className='min-h-[5vh] max-h-[40vh]'
                 />
             </div>
+
+            <button
+                type='submit'
+                disabled={loading}
+                className='w-80 ml-auto'
+            >
+                {loading ? 'Ожидайте...' : 'Отправить'}
+            </button>
         </form>
+
+        <hr className='my-16 mx-auto w-1/2 h-[0.1rem] bg-gray border-none' />
 
         <div>
             {data && data.map((el) => {
